@@ -94,6 +94,12 @@ RSpec.describe 'plots index page (/plots)' do
               expect(page).to have_no_content(plant3.name)
             end
           end
+
+          it 'still displays the removed plant in other plots' do
+            within "#plot-#{plot2.id}" do
+              expect(page).to have_content(plant3.name)
+            end
+          end
         end
       end
     end
