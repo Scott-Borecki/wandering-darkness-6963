@@ -1,14 +1,14 @@
 <% @plots.each do |plot| %>
-<section id='plot-<%= plot.id %>'>
-  <p>
-    Plot Number: <%= plot.number %><br>
-    Plot Plants: <br>
-    <% plot.plants.each do |plant| %>
-      <section id='pp-<%= plot.id %>-<%= plant.id %>'>
-        <%= plant.name %><br>
-        <%= link_to 'Remove Plant from Plot', plot_plant_path(plot, plant), method: :delete %>
-      </section>
-    <% end %>
-  </p>
-</section>
+  <section id='plot-<%= plot.id %>'>
+    <p>
+      Plot Number: <%= plot.number %><br>
+      Plot Plants: <br>
+      <% plot.plants.each do |plant| %>
+        <section id='pp-<%= plot.id %>-<%= plant.id %>'>
+          <%= plant.name %><br>
+          <%= link_to 'Remove Plant from Plot', plot_plant_path(plot, plant), method: :delete %>
+        </section>
+      <% end %>
+    </p>
+  </section>
 <% end %>
