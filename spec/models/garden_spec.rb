@@ -30,9 +30,11 @@ RSpec.describe Garden do
 
   describe 'instance methods' do
     describe '#plants_by_harvest_time' do
-      it 'returns the plants from the plots in the garden (no duplicates)' do
+      it 'returns the plants from the plots in the garden with no duplicates'\
+         ' and only plants with less than given days to harvest'\
+         ' and sorts by most plants that appear in the garden' do
         actual = garden1.plants_by_harvest_time(100).map(&:id)
-        expected = [plant1.id, plant3.id]
+        expected = [plant3.id, plant1.id]
 
         expect(actual).to eq(expected)
 
