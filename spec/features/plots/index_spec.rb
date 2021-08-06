@@ -76,6 +76,44 @@ RSpec.describe 'plots index page (/plots)' do
           expect(page).to have_no_content(plant3.name)
         end
       end
+
+      describe 'next to each plants name' do
+        it 'displays a link to remove that plant from the plot' do
+          Plot.all.each do |plot|
+            plot.plants.each do |plant|
+              within "#pp-#{plot.id}-#{plant.id}" do
+                expect(page).to have_link('Remove Plant from Plot')
+              end
+            end
+          end
+        end
+
+        context 'before I click on the remove link' do
+          it 'displays the plant in the plot' do
+            within "#plot-#{plot1.id}" do
+              expect(page).to have_content(plant3.name)
+            end
+          end
+        end
+
+        context 'after I click the remove link' do
+          before do
+            within "#pp-#{plot1.id}-#{plant3.id}" do
+              click_link 'Remove Plant from Plot'
+            end
+          end
+
+          it 'returns me to the plots index page' do
+            expect(current_path).to eq(plots_path)
+          end
+
+          it 'no longer displays the removed plant in the plot' do
+            within "#plot-#{plot1.id}" do
+              expect(page).to have_no_content(plant3.name)
+            end
+          end
+        end
+      end
     end
   end
 end

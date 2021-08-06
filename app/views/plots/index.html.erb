@@ -4,7 +4,10 @@
     Plot ID: <%= plot.number %><br>
     Plot Plants: <br>
     <% plot.plants.each do |plant| %>
-      <%= plant.name %><br>
+      <section id='pp-<%= plot.id %>-<%= plant.id %>'>
+        <%= plant.name %><br>
+        <%= link_to 'Remove Plant from Plot', plot_plant_path(plot, plant), method: :delete %>
+      </section>
     <% end %>
   </p>
 </section>
