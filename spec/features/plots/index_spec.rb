@@ -20,12 +20,12 @@ RSpec.describe 'plots index page (/plots)' do
 
       it 'displays a list of all plot numbers and names of each plots plants' do
         within "#plot-#{plot1.id}" do
-          expect(page).to have_content(plot1.number)
+          expect(page).to have_content("Plot Number: #{plot1.number}")
           expect(page).to have_content(plant3.name)
           expect(page).to have_content(plant4.name)
 
-          expect(page).to have_no_content(plot2.number)
-          expect(page).to have_no_content(plot3.number)
+          expect(page).to have_no_content("Plot Number: #{plot2.number}")
+          expect(page).to have_no_content("Plot Number: #{plot3.number}")
           expect(page).to have_no_content(plant1.name)
           expect(page).to have_no_content(plant2.name)
           expect(page).to have_no_content(plant5.name)
@@ -33,12 +33,12 @@ RSpec.describe 'plots index page (/plots)' do
         end
 
         within "#plot-#{plot2.id}" do
-          expect(page).to have_content(plot2.number)
+          expect(page).to have_content("Plot Number: #{plot2.number}")
           expect(page).to have_content(plant1.name)
           expect(page).to have_content(plant3.name)
 
-          expect(page).to have_no_content(plot1.number)
-          expect(page).to have_no_content(plot3.number)
+          expect(page).to have_no_content("Plot Number: #{plot1.number}")
+          expect(page).to have_no_content("Plot Number: #{plot3.number}")
           expect(page).to have_no_content(plant2.name)
           expect(page).to have_no_content(plant4.name)
           expect(page).to have_no_content(plant5.name)
@@ -46,13 +46,13 @@ RSpec.describe 'plots index page (/plots)' do
         end
 
         within "#plot-#{plot3.id}" do
-          expect(page).to have_content(plot3.number)
+          expect(page).to have_content("Plot Number: #{plot3.number}")
           expect(page).to have_content(plant4.name)
           expect(page).to have_content(plant5.name)
           expect(page).to have_content(plant6.name)
 
-          expect(page).to have_no_content(plot1.number)
-          expect(page).to have_no_content(plot2.number)
+          expect(page).to have_no_content("Plot Number: #{plot1.number}")
+          expect(page).to have_no_content("Plot Number: #{plot2.number}")
           expect(page).to have_no_content(plant1.name)
           expect(page).to have_no_content(plant2.name)
           expect(page).to have_no_content(plant3.name)
