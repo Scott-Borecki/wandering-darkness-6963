@@ -4,6 +4,6 @@
 
 <h3>Plants</h3>
 
-<% @garden.plants.each do |plant| %>
+<% @garden.plants_by_harvest_time.each do |plant| %>
   <%= plant.name %><br>
 <% end %>

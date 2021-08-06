@@ -10,11 +10,11 @@ RSpec.describe 'garden show page (/garden/:id)' do
   let!(:plot3) { garden2.plots.create!(number: 7, size: 'small', direction: 'north') }
 
   let!(:plant1) { Plant.create!(name: 'Basil', description: 'Great on a pizza', days_to_harvest: 25) }
-  let!(:plant2) { Plant.create!(name: 'Lettuce', description: 'Great for beginners', days_to_harvest: 25) }
-  let!(:plant3) { Plant.create!(name: 'Bell Pepper', description: 'Great in a steak and cheese sub', days_to_harvest: 25) }
-  let!(:plant4) { Plant.create!(name: 'Strawberry', description: 'Yummy!', days_to_harvest: 25) }
-  let!(:plant5) { Plant.create!(name: 'Oregano', description: 'Grows like a weed', days_to_harvest: 25) }
-  let!(:plant6) { Plant.create!(name: 'Thyme', description: 'bushy', days_to_harvest: 25) }
+  let!(:plant2) { Plant.create!(name: 'Lettuce', description: 'Great for beginners', days_to_harvest: 50) }
+  let!(:plant3) { Plant.create!(name: 'Bell Pepper', description: 'Great in a steak and cheese sub', days_to_harvest: 44) }
+  let!(:plant4) { Plant.create!(name: 'Strawberry', description: 'Yummy!', days_to_harvest: 110) }
+  let!(:plant5) { Plant.create!(name: 'Oregano', description: 'Grows like a weed', days_to_harvest: 22) }
+  let!(:plant6) { Plant.create!(name: 'Thyme', description: 'bushy', days_to_harvest: 80) }
 
   let!(:plot1_plant3) {PlotPlant.create!(plot: plot1, plant: plant3) }
   let!(:plot1_plant4) {PlotPlant.create!(plot: plot1, plant: plant4) }
@@ -39,14 +39,27 @@ RSpec.describe 'garden show page (/garden/:id)' do
       context 'when there are plants' do
         before { visit garden_path(garden1) }
 
-        it 'displays a list of the plants that are in the gardens plots (with no duplicates)' do
-          save_and_open_page
+        it 'displays a list of the plants that are in the gardens plots '\
+           '(with no duplicates or plants greater than 100 days to harvest)' do
+          visit garden_path(garden1)
+
           plants = []
           garden1.plots.each do |plot|
-            plants << plot.plants
+            plants << plot.plants.where('plants.days_to_harvest < 100')
           end
 
-          plants.flatten.each do |plant|
+          plants.flatten.uniq.each do |plant|
+            expect(page).to have_content(plant.name)
+          end
+
+          visit garden_path(garden2)
+          
+          plants = []
+          garden2.plots.each do |plot|
+            plants << plot.plants.where('plants.days_to_harvest < 100')
+          end
+
+          plants.flatten.uniq.each do |plant|
             expect(page).to have_content(plant.name)
           end
         end
