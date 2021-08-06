@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Garden do
+RSpec.describe 'garden show page (/garden/:id)' do
   let!(:garden1) { Garden.create!(name: 'Echters Garden', organic: true) }
   let!(:garden2) { Garden.create!(name: 'Jims Garden', organic: false) }
   let!(:garden3) { Garden.create!(name: 'Harrys Garden', organic: true) }
@@ -24,22 +24,32 @@ RSpec.describe Garden do
   let!(:plot3_plant6) {PlotPlant.create!(plot: plot3, plant: plant6) }
   let!(:plot3_plant4) {PlotPlant.create!(plot: plot3, plant: plant4) }
 
-  describe 'relationships' do
-    it { should have_many(:plots) }
-  end
+  describe 'as a visitor' do
+    describe 'when I visit a gardens show page' do
+      context 'when there are no plants' do
+        before { visit garden_path(garden3) }
 
-  describe 'instance methods' do
-    describe '#plants' do
-      it 'returns the plants from the plots in the garden' do
-        actual = garden1.plants.map(&:id)
-        expected = [plant3.id, plant4.id, plant1.id, plant3.id]
+        it 'diplays no plants' do
+          Plant.all.each do |plant|
+            expect(page).to have_no_content(plant.name)
+          end
+        end
+      end
 
-        expect(actual).to eq(expected)
+      context 'when there are plants' do
+        before { visit garden_path(garden1) }
 
-        actual = garden1.plants.map(&:name)
-        expected = [plant3.name, plant4.name, plant1.name, plant3.name]
+        it 'displays a list of the plants that are in the gardens plots (with no duplicates)' do
+          save_and_open_page
+          plants = []
+          garden1.plots.each do |plot|
+            plants << plot.plants
+          end
 
-        expect(actual).to eq(expected)
+          plants.flatten.each do |plant|
+            expect(page).to have_content(plant.name)
+          end
+        end
       end
     end
   end

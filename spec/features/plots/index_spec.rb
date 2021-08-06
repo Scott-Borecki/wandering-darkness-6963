@@ -7,7 +7,7 @@ RSpec.describe 'plots index page (/plots)' do
 
   let!(:plot1) { garden1.plots.create!(number: 25, size: 'large', direction: 'east') }
   let!(:plot2) { garden1.plots.create!(number: 10, size: 'medium', direction: 'west') }
-  let!(:plot3) { garden1.plots.create!(number: 7, size: 'small', direction: 'north') }
+  let!(:plot3) { garden2.plots.create!(number: 7, size: 'small', direction: 'north') }
 
   let!(:plant1) { Plant.create!(name: 'Basil', description: 'Great on a pizza', days_to_harvest: 25) }
   let!(:plant2) { Plant.create!(name: 'Lettuce', description: 'Great for beginners', days_to_harvest: 25) }
