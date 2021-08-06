@@ -7,7 +7,7 @@ RSpec.describe 'plots index page (/plots)' do
 
   let!(:plot1) { garden1.plots.create!(number: 25, size: 'large', direction: 'east') }
   let!(:plot2) { garden1.plots.create!(number: 10, size: 'medium', direction: 'west') }
-  let!(:plot3) { garden1.plots.create!(number: 5, size: 'small', direction: 'north') }
+  let!(:plot3) { garden1.plots.create!(number: 7, size: 'small', direction: 'north') }
 
   let!(:plant1) { Plant.create!(name: 'Basil', description: 'Great on a pizza', days_to_harvest: 25) }
   let!(:plant2) { Plant.create!(name: 'Lettuce', description: 'Great for beginners', days_to_harvest: 25) }
@@ -34,9 +34,47 @@ RSpec.describe 'plots index page (/plots)' do
   describe 'as a visitor' do
     describe 'when I visit the plots index page (/plots)' do
       before { visit plots_path }
+      specify { expect(current_path).to eq(plots_path) }
 
-      xit 'displays a list of all plot numbers and names of each plots plants' do
+      it 'displays a list of all plot numbers and names of each plots plants' do
+        within "#plot-#{plot1.id}" do
+          expect(page).to have_content(plot1.number)
+          expect(page).to have_content(plant3.name)
+          expect(page).to have_content(plant4.name)
 
+          expect(page).to have_no_content(plot2.number)
+          expect(page).to have_no_content(plot3.number)
+          expect(page).to have_no_content(plant1.name)
+          expect(page).to have_no_content(plant2.name)
+          expect(page).to have_no_content(plant5.name)
+          expect(page).to have_no_content(plant6.name)
+        end
+
+        within "#plot-#{plot2.id}" do
+          expect(page).to have_content(plot2.number)
+          expect(page).to have_content(plant1.name)
+          expect(page).to have_content(plant3.name)
+
+          expect(page).to have_no_content(plot1.number)
+          expect(page).to have_no_content(plot3.number)
+          expect(page).to have_no_content(plant2.name)
+          expect(page).to have_no_content(plant4.name)
+          expect(page).to have_no_content(plant5.name)
+          expect(page).to have_no_content(plant6.name)
+        end
+
+        within "#plot-#{plot3.id}" do
+          expect(page).to have_content(plot3.number)
+          expect(page).to have_content(plant4.name)
+          expect(page).to have_content(plant5.name)
+          expect(page).to have_content(plant6.name)
+
+          expect(page).to have_no_content(plot1.number)
+          expect(page).to have_no_content(plot2.number)
+          expect(page).to have_no_content(plant1.name)
+          expect(page).to have_no_content(plant2.name)
+          expect(page).to have_no_content(plant3.name)
+        end
       end
     end
   end
