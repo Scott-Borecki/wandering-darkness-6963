@@ -16,7 +16,10 @@ RSpec.describe 'plots index page (/plots)' do
   describe 'as a visitor' do
     describe 'when I visit the plots index page (/plots)' do
       before { visit plots_path }
-      specify { expect(current_path).to eq(plots_path) }
+
+      it 'takes me to the plots index page (/plots)' do
+        expect(current_path).to eq(plots_path)
+      end
 
       it 'displays a list of all plot numbers and names of each plots plants' do
         within "#plot-#{plot1.id}" do

@@ -15,22 +15,13 @@ RSpec.describe 'garden show page (/garden/:id)' do
 
   describe 'as a visitor' do
     describe 'when I visit a gardens show page' do
-      context 'when there are no plants' do
-        before { visit garden_path(garden3) }
-
-        it 'diplays no plants' do
-          Plant.all.each do |plant|
-            expect(page).to have_no_content(plant.name)
-          end
-        end
-      end
-
       context 'when there are plants' do
         it 'displays a list of the plants that are in the gardens plots '\
-           'with no duplicates or plants greater than 100 days to harvest'\
+           'with no duplicates or plants greater than 100 days to harvest '\
            'and ordered by most plants in the garden' do
           # Test garden1
           visit garden_path(garden1)
+          expect(current_path).to eq(garden_path(garden1))
 
           garden1.plants_by_harvest_time(100).each do |plant|
             expect(page).to have_content(plant.name)
@@ -56,6 +47,18 @@ RSpec.describe 'garden show page (/garden/:id)' do
           expect(page).to have_no_content(plant3.name)
           expect(page).to have_no_content(plant4.name)
           expect(page).to have_no_content(plant7.name)
+        end
+      end
+      
+      context 'when there are no plants' do
+        it 'diplays no plants' do
+          # Test garden3
+          visit garden_path(garden3)
+          expect(current_path).to eq(garden_path(garden3))
+
+          Plant.all.each do |plant|
+            expect(page).to have_no_content(plant.name)
+          end
         end
       end
     end
